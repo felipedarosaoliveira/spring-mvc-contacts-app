@@ -15,27 +15,31 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<p class="alert alert-primary" data-role="messenger">Mensagem vai aqui</p>
+				<p class="alert alert-primary" data-role="messenger" th:text="${message}">Mensagem vai aqui</p>
+				<h1>Cadastro de Contato</h1>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<form>
+				<form th:object="${contact}" method="post" th:action="@{/contacts/saveContact}">
 					<div class="col-md-3">
 						<label for="id" class="form-label">Código</label>
-						<input type="text" class="form-control" id="id" readonly>
+						<input th:field="*{id}" type="text" class="form-control" id="id" readonly>
 					</div>
 					<div class="col-md-3">
 						<label for="name" class="form-label">Nome</label>
-						<input type="text" class="form-control" id="name" placeholder="Informe o nome do contato">
+						<input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Informe o nome do contato">
 					</div>
 					<div class="col-md-3">
 						<label for="email" class="form-label">Email </label>
-						<input type="email" class="form-control" id="email" placeholder="informe o email do contato">
+						<input th:field="*{email}" type="email" class="form-control" id="email" placeholder="informe o email do contato">
 					</div>
 					<div class="col-md-3">
 						<label for="phone" class="form-label">Telefone </label>
-						<input type="text" class="form-control" id="phone" placeholder="informe o telefone do contato">
+						<input th:field="*{phone}" type="text" class="form-control" id="phone" placeholder="informe o telefone do contato">
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-success">Gravar</button>
 					</div>
 				</form>
 			</div>
@@ -44,7 +48,11 @@
 
 
 
-
+<script>
+	setTimeout(()=>{
+			document.querySelector('[data-role="messenger"]').classList.toggle('hide');
+		},5000)
+</script>
 
 </body>
 
