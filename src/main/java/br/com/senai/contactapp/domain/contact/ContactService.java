@@ -1,4 +1,4 @@
-package br.com.senai.contactapp.domain;
+package br.com.senai.contactapp.domain.contact;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,33 @@ public class ContactService {
 		contact.setId(UUID.randomUUID());
 		contacts.add(contact);
 		return true;
+	}
+	
+	public boolean update(Contact contact) {
+		if(contact == null) {
+			return false;
+		}
+		if(findById(contact.getId()) == null) {
+			return false;
+		}
+		contacts = contacts
+				.stream()
+				.map((current)->{
+					if(current.getId().equals(contact.getId())) {
+						return contact;
+					}
+					return current;
+				})
+				.toList();
+		
+		return true;
+	}
+	
+	public boolean save(Contact contact) {
+		if(contact.getId() != null) {
+			return update(contact);
+		}
+		return createContact(contact);
 	}
 	
 	public List<Contact> findAll(){

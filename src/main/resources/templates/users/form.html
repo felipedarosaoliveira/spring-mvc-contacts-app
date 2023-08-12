@@ -20,13 +20,13 @@
 					data-role="messenger" 
 					th:if="${message != ''}" 
 					th:text="${message}">Mensagem vai aqui</p>
-				<h1>Cadastro de Contato</h1>
+				<h1>Cadastro de Usuário</h1>
 			</div>
 		</div>
-		<a th:href="@{/contacts}"><i class="bi bi-list-ul" style="font-size: 1.3rem; color: cornflowerblue;"></i></a>
+		<a th:href="@{/users}"><i class="bi bi-list-ul" style="font-size: 1.3rem; color: cornflowerblue;"></i></a>
 		<div class="row">
 			<div class="col-md-12">
-				<form th:object="${contact}" method="post" th:action="@{/contacts/saveContact}">
+				<form th:object="${user}" method="post" th:action="@{/users/saveUser}">
 					<div class="col-md-3">
 						<label for="id" class="form-label">Código</label>
 						<input th:field="*{id}" type="text" class="form-control" id="id" readonly>
@@ -38,10 +38,6 @@
 					<div class="col-md-3">
 						<label for="email" class="form-label">Email </label>
 						<input th:field="*{email}" type="email" class="form-control" id="email" placeholder="informe o email do contato">
-					</div>
-					<div class="col-md-3">
-						<label for="phone" class="form-label">Telefone </label>
-						<input th:field="*{phone}" type="text" class="form-control" id="phone" placeholder="informe o telefone do contato">
 					</div>
 					<div class="col-md-3">
 						<button type="submit" class="btn btn-success">Gravar</button>

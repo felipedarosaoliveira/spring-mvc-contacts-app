@@ -12,29 +12,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.senai.contactapp.domain.Contact;
-import br.com.senai.contactapp.domain.ContactService;
+import br.com.senai.contactapp.domain.contact.Contact;
+import br.com.senai.contactapp.domain.contact.ContactService;
 
 @Controller
 @RequestMapping("/contacts")
 public class ContactController {
-	
+
 	@Autowired
 	private ContactService service;
 
-	@GetMapping()
-	public String show() {
-		return "contacts/list";
-	}
-	
 	@GetMapping("/form/{id}")
 	public ModelAndView form(@PathVariable String id) {
 		ModelAndView mv = new ModelAndView("contacts/form");
-		mv.addObject("message", "");
-		mv.addObject("contact", Contact.builder().build());
+		if ("novo".equals(id)) {
+			mv.addObject("contact", Contact.builder().build());
+			mv.addObject("message", "");
+		} else {
+			Contact contact = service.findById(UUID.fromString(id));
+			mv.addObject("contact", contact != null ? 
+												contact : 
+												Contact.builder().build());
+			mv.addObject("message", contact!= null ? "" : "Contato não encontrado" );
+		}
 		return mv;
 	}
-	
+
 	@GetMapping("/form")
 	public ModelAndView showNewFormContact() {
 		ModelAndView mv = new ModelAndView("contacts/form");
@@ -42,34 +45,30 @@ public class ContactController {
 		mv.addObject("contact", Contact.builder().build());
 		return mv;
 	}
-	
+
 	@PostMapping("/saveContact")
 	public ModelAndView save(@ModelAttribute Contact contact) {
 		ModelAndView mv = new ModelAndView("contacts/form");
-		boolean result = service.createContact(contact);
-		String message = result ? 
-				"Contato criado com sucesso" :
-				"Não foi possível criar o registro";
+		boolean result = service.save(contact);
+		String message = result ? "Contato salvo com sucesso" : "Não foi possível salvar o registro";
 		mv.addObject("message", message);
 		mv.addObject("contact", contact);
 		return mv;
 	}
-	
-	@GetMapping("/list")
+
+	@GetMapping()
 	public ModelAndView listAll() {
 		ModelAndView mv = new ModelAndView("contacts/list");
 		mv.addObject("contacts", service.findAll());
 		mv.addObject("message", "");
 		return mv;
 	}
-	
+
 	@GetMapping("/delete/{id}")
 	public ModelAndView remove(@PathVariable UUID id) {
 		ModelAndView mv = new ModelAndView("contacts/list");
 		boolean result = service.removeContact(id);
-		String message = result ? 
-				"Contato removido com sucesso" :
-				"Não foi possível remover o registro";
+		String message = result ? "Contato removido com sucesso" : "Não foi possível remover o registro";
 		mv.addObject("contacts", service.findAll());
 		mv.addObject("message", message);
 		return mv;

@@ -18,31 +18,29 @@
 		th:if="${message != ''}" 
 		th:text="${message}">Mensagem vai aqui</p>
 
-	<h1>Meus Contatos</h1>
-	<a th:href="@{/contacts/form/novo}" class="btn btn-primary">Novo Contato</a>
+	<h1>Meus Usuários</h1>
+	<a th:href="@{/users/form/novo}" class="btn btn-primary">Novo Usuário</a>
 	<table class="table table-striped table-hover table-bordered">
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Nome</th>
 				<th>Email</th>
-				<th>Telefone</th>
 				<th>Ações</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="contact : ${contacts}">
-				<td th:text="${contact.id}"></td>
-				<td th:text="${contact.name}"></td>
-				<td th:text="${contact.email}"></td>
-				<td th:text="${contact.phone}"></td>
+			<tr th:each="user : ${users}">
+				<td th:text="${user.id}"></td>
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.email}"></td>
 				<td>
-					<a th:href="@{/contacts/form/{id}(id=${contact.id})}">
+					<a th:href="@{/users/form/{id}(id=${user.id})}">
 						<i class="bi bi-pencil-square" 
 						   style="font-size: 1.3rem; color: cornflowerblue;"></i>
 					</a>
 					/
-					<a th:href="@{/contacts/delete/{id}(id=${contact.id})}" data-role="delete">
+					<a th:href="@{/users/delete/{id}(id=${user.id})}" data-role="delete">
 						<i class="bi bi-person-dash"
 						    style="font-size: 1.3rem; color: cornflowerblue;"></i>
 					</a>
