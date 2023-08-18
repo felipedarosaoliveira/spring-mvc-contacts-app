@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.senai.contactapp.infra.ContactRepository;
 
 @Service
 public class ContactService {
+	
+	@Autowired
+	private ContactRepository repository;
 	
 
 	private List<Contact> contacts = new ArrayList<Contact>();
@@ -49,7 +55,8 @@ public class ContactService {
 	}
 	
 	public List<Contact> findAll(){
-		return contacts;
+		//return contacts;
+		return repository.findAll();
 	}
 	
 	public Contact findById(final UUID id) {
