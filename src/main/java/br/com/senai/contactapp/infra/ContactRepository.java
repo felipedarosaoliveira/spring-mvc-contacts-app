@@ -24,13 +24,6 @@ public class ContactRepository {
 		});
 	}
 	
-	public Contact findById(UUID id) {
-		String sql = "select * from contact where id = ?";
-		return db.queryForObject(sql, (resultset,index)->{
-			return toContact(resultset);
-		},id);
-	}
-	
 	private Contact toContact(ResultSet resultset) throws SQLException {
 		return Contact.builder()
 				.id(UUID.fromString(resultset.getString("id")))
@@ -39,5 +32,41 @@ public class ContactRepository {
 				.phone(resultset.getString("phone"))
 				.build();
 	}
+	
+	public Contact insert(Contact contact) {
+		UUID id = UUID.randomUUID();
+		String sql = "insert into contact (id, name, email, phone) values (?,?,?,?)";
+		int result = db.update(sql, 
+				          id,contact.getName(), contact.getEmail(),contact.getPhone());
+		if(result == 1) {
+			contact.setId(id);
+		}
+		return contact;
+	}
+	
+	
+	
+	
+	
+	public Contact findById(UUID id) {
+		String sql = "select * from contact where id = ?";
+		return db.queryForObject(sql, (resultset,index)->{
+			return toContact(resultset);
+		},id);
+	}
+	
+	
+	
+	public Contact update(Contact contact) {
+		UUID id = UUID.randomUUID();
+		String sql = "update  contact set name = ?, email = ? , phone = ? where id = ?";
+		int result = db.update(sql, contact.getName(),contact.getEmail(),contact.getPhone(),contact.getId());
+		if(result == 1) {
+			contact.setId(id);
+		}
+		return contact;
+	}
+	
+	
 
 }

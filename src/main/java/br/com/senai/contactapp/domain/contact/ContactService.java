@@ -22,9 +22,8 @@ public class ContactService {
 		if(contact == null) {
 			return false;
 		}
-		contact.setId(UUID.randomUUID());
-		contacts.add(contact);
-		return true;
+		contact = repository.insert(contact);
+		return contact.getId() != null;
 	}
 	
 	public boolean update(Contact contact) {
@@ -55,7 +54,6 @@ public class ContactService {
 	}
 	
 	public List<Contact> findAll(){
-		//return contacts;
 		return repository.findAll();
 	}
 	
